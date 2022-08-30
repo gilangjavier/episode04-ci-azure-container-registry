@@ -1,4 +1,4 @@
-FROM openjdk:8 AS BUILD_IMAGE
+FROM openjdk:11 AS BUILD_IMAGE
 RUN apt update && apt install maven -y
 RUN git clone -b docker https://github.com/gilangjavier/episode04-ci-azure-container-registry.git
 RUN cd episode04-ci-azure-container-registry && mvn install
