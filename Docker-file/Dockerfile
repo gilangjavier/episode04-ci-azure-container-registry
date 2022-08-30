@@ -7,7 +7,7 @@ FROM tomcat:8-jre11
 
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-COPY --from=BUILD_IMAGE episode04-ci-azure-container-registry/target/javarest-0.0.1-SNAPSHOT.war
+COPY --from=BUILD_IMAGE episode04-ci-azure-container-registry/target/javarest-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war
 
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
