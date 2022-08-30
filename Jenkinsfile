@@ -65,29 +65,21 @@ pipeline {
             }
         }
         stage('Build Docker Image') {
-            steps{
-                scripts {
-                    dockerImage = docker.build( registryName = ":$BUILD_NUMBER", "./Docker-file/")
+            steps {
+                script {
+                    dockerImage = docker.build( registryName + ":$BUILD_NUMBER", "./Docker-file/")
                 }
             }
         }
         stage('Upload Image Docker') {
             steps {
-                scripts {
+                script {
                     docker.withRegistry( registryUrl, registryCredential ) {
                         dockerImage.push("$BUILD_NUMBER")
                         docker.push('latest')
                     }
                 }
             }
-        }
-    }
-    post {
-        always {
-            echo 'Slack Notifications.'
-            slackSend channel: '#jenkinscicd',
-                color: COLOR_MAP[currentBuild.currentResult],
-                message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_ID} \n More info at: ${env.BUILD_URL}"
         }
     }
 
